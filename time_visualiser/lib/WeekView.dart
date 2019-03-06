@@ -62,10 +62,16 @@ class _MyWeekViewState extends State<MyWeekView> {
       build(context);
     }
   }
+  List<List<charts.Series<TaskData, int>>> listOfAllData = [];
+  void data() {
+    for (int i = 0; i < 7; i++) {
+      listOfAllData.add(mondayData(i));
+    }
+  }
 
-  List<charts.Series<TaskData, int>> _createSampleData() {
+  List<charts.Series<TaskData, int>> mondayData(int day) {
     createAllTaskData();
-    final data = listOfAllDays[0];
+    final data = listOfAllDays[day];
 
     return [
       new charts.Series<TaskData, int>(
@@ -76,9 +82,10 @@ class _MyWeekViewState extends State<MyWeekView> {
       )
     ];
   }
-
+// child: DonutPieChart(mondayData()),
   @override
   Widget build(BuildContext context) {
+    data();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -86,7 +93,137 @@ class _MyWeekViewState extends State<MyWeekView> {
       ),
       body: Center(
         child: Container(
-          child: DonutPieChart(_createSampleData()),
+          child: Column(
+            children: <Widget>[
+              Container(
+                child: Center(
+                child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Text('Monday'),
+                          Container(
+                            height: 80,
+                            width: 80,
+                            child: Center(
+                              child: DonutPieChart(listOfAllData[0]),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Text('Tuesday'),
+                          Container(
+                            height: 80,
+                            width: 80,
+                            child: Center(
+                              child: DonutPieChart(listOfAllData[1]),
+                            )
+                            ,
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Text('Wednesday'),
+                          Container(
+                            height: 80,
+                            width: 80,
+                            child: Center(
+                              child: DonutPieChart(listOfAllData[2]),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Text('Thursday'),
+                          Container(
+                            height: 80,
+                            width: 80,
+                            child: Center(
+                              child: DonutPieChart(listOfAllData[3]),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+                )
+              ),
+              Container(
+                child: Center(
+                child: Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Text('Friday'),
+                          Container(
+                            height: 80,
+                            width: 80,
+                            child: Center(
+                              child: DonutPieChart(listOfAllData[4]),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Text('Saturday'),
+                          Container(
+                            height: 80,
+                            width: 80,
+                            child: Center(
+                              child: DonutPieChart(listOfAllData[5]),
+                            )
+                            ,
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      child: Column(
+                        children: <Widget>[
+                          Text('Sunday'),
+                          FlatButton(
+                            child: Container(
+                            height: 80,
+                            width: 80,
+                            child: Center(
+                              child: DonutPieChart(listOfAllData[6]),
+                            ),
+                          ),
+                          onPressed: () {
+                            print("pressed");
+                          },
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+                )
+              )
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -98,6 +235,7 @@ class _MyWeekViewState extends State<MyWeekView> {
             );
         },
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
    );
   }
 }
@@ -124,7 +262,7 @@ class DonutPieChart extends StatelessWidget {
         animate: animate,
         // Configure the width of the pie slices to 60px. The remaining space in
         // the chart will be left as a hole in the center.
-        defaultRenderer: new charts.ArcRendererConfig(arcWidth: 500));
+        defaultRenderer: new charts.ArcRendererConfig(arcWidth: 100));
   }
 
   /// Create one series with sample hard coded data.
