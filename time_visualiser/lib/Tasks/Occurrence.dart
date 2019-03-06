@@ -1,11 +1,11 @@
 
 
 class Occurrence {
-  List<String> daysPerWeek;
+  List<int> daysPerWeek;
   List<DateTime> time;
   bool repeats = false;
 
-  Occurrence(List<String> daysePerWeek, List<DateTime> time, bool repeats) {
+  Occurrence(List<int> daysePerWeek, List<DateTime> time, bool repeats) {
     this.daysPerWeek = daysePerWeek;
     this.time = time;
     this.repeats = repeats;

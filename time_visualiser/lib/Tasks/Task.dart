@@ -6,6 +6,11 @@ class Task {
   String name;
   List<Occurrence> occurrence;
 
+  Task(String name) {
+    this.name = name;
+    occurrence = [];
+  }
+
   void setNameOfTask(String nameOfTask) {
     this.name = nameOfTask;
   }
@@ -13,7 +18,7 @@ class Task {
     return this.name;
   }
 
-  void addTimeOfTask(List<String> daysPerWeek, List<DateTime> time, bool repeats) {
+  void addTimeOfTask(List<int> daysPerWeek, List<DateTime> time, bool repeats) {
     for (Occurrence occurs in this.occurrence) {
       // Check whether this new occurrence collides with an already existing occurrence
       // and if it does not then add the new one to the list
