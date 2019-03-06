@@ -98,7 +98,8 @@ class _SecondRouteState extends State<SecondRoute> {
   _SecondRouteState(String name) {
     this.taskName = name;
   }
-
+  TextStyle weedayStyle = TextStyle(fontFamily: 'Avenir', fontSize: 10, fontWeight: FontWeight.bold);
+  TextStyle titles = TextStyle(fontFamily: 'Avenir', fontSize: 20, fontWeight: FontWeight.bold);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,11 +108,13 @@ class _SecondRouteState extends State<SecondRoute> {
       ),
       body: Center(
         child: Container(
-          margin: EdgeInsets.all(10),
+          margin: EdgeInsets.only(top: 0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text('Repeats: '),
+            Text('Repeats: ', style: titles,),
             Container(
+              margin: EdgeInsets.only(top: 0, bottom: 100),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -119,7 +122,7 @@ class _SecondRouteState extends State<SecondRoute> {
                     child: Center(
                       child: Column(
                         children: <Widget>[
-                          Text('Monday', style: TextStyle(fontSize: 10),),
+                          Text('Monday', style: weedayStyle,),
                           Checkbox(
                             value: monday,
                             onChanged: (value) {
@@ -141,7 +144,7 @@ class _SecondRouteState extends State<SecondRoute> {
                     child: Center(
                       child: Column(
                         children: <Widget>[
-                          Text('Tuesday', style: TextStyle(fontSize: 10),),
+                          Text('Tuesday', style: weedayStyle,),
                           Checkbox(
                             value: tuesday,
                             onChanged: (value) {
@@ -163,7 +166,7 @@ class _SecondRouteState extends State<SecondRoute> {
                     child: Center(
                       child: Column(
                         children: <Widget>[
-                          Text('Wednesday', style: TextStyle(fontSize: 10),),
+                          Text('Wednesday', style: weedayStyle,),
                           Checkbox(
                             value: wednesday,
                             onChanged: (value) {
@@ -185,7 +188,7 @@ class _SecondRouteState extends State<SecondRoute> {
                     child: Center(
                       child: Column(
                         children: <Widget>[
-                          Text('Thursday', style: TextStyle(fontSize: 10),),
+                          Text('Thursday', style: weedayStyle,),
                           Checkbox(
                             value: thursday,
                             onChanged: (value) {
@@ -207,7 +210,7 @@ class _SecondRouteState extends State<SecondRoute> {
                     child: Center(
                       child: Column(
                         children: <Widget>[
-                          Text('Friday', style: TextStyle(fontSize: 10),),
+                          Text('Friday', style: weedayStyle,),
                           Checkbox(
                             value: friday,
                             onChanged: (value) {
@@ -229,7 +232,7 @@ class _SecondRouteState extends State<SecondRoute> {
                     child: Center(
                       child: Column(
                         children: <Widget>[
-                          Text('Saturday', style: TextStyle(fontSize: 10),),
+                          Text('Saturday', style: weedayStyle,),
                           Checkbox(
                             value: saturday,
                             onChanged: (value) {
@@ -251,7 +254,7 @@ class _SecondRouteState extends State<SecondRoute> {
                     child: Center(
                       child: Column(
                         children: <Widget>[
-                          Text('Sunday', style: TextStyle(fontSize: 10),),
+                          Text('Sunday', style: weedayStyle,),
                           Checkbox(
                             value: sunday,
                             onChanged: (value) {
@@ -273,31 +276,42 @@ class _SecondRouteState extends State<SecondRoute> {
               ),
             ),
             Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  color: Colors.blue
+                ),
               child: Builder(
             builder: (context) => FlatButton(
                   onPressed: () {
                     timeFrom = showTimePicker(context: context, initialTime: TimeOfDay.now());
                   },
-                  child: Text("Start time"),
+                  child: Text("Set Start time", style: TextStyle(fontFamily: 'Avenir', fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                 ),
               ),
             ), 
-            Container(
-              child: Builder(
-            builder: (context) => FlatButton(
+                Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  color: Colors.blue
+                ),
+                  child: Builder(
+                  builder: (context) => FlatButton(
                   onPressed: () {
                     timeTo = showTimePicker(context: context, initialTime: TimeOfDay.now());
                   },
-                  child: Text("End time"),
+                  child: Text("Set End time", style: TextStyle(fontFamily: 'Avenir', fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
                 ),
               ),
-            ), 
+            ),
             RaisedButton(
+              color: Colors.blue,
               onPressed: () {
-                createTask();
-                Navigator.pop(context);
+                if (this.days.length > 0 && this.timeFrom != null && this.timeTo != null) {
+                  createTask();
+                  Navigator.pop(context);
+                }
               },
-              child: Text('Create Task'),
+              child: Text('Create Task', style: TextStyle(fontFamily: 'Avenir', fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
               ),
           ],
         ),
