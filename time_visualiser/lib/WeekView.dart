@@ -44,17 +44,14 @@ class _MyWeekViewState extends State<MyWeekView> {
           if (occurs.daysPerWeek.contains(i)) {
             int time = occurs.time[1].hour - occurs.time[0].hour;
             listOfDayTasks.add(new TaskData('task.name', time));
-            print("Hello: " + time.toString() + " " + task.name + " " + i.toString());
           }
         }
       }
       int count = 0;
       for (TaskData data in listOfDayTasks) {
-        print("Hello again");
         count += data.time;
       }
       int freeTime = 24 - count;
-      print(freeTime.toString() + " time");
       listOfDayTasks.add(new TaskData('Free', freeTime));
       listOfAllDays.add(listOfDayTasks);
     }
@@ -63,6 +60,7 @@ class _MyWeekViewState extends State<MyWeekView> {
     }
   }
   List<List<charts.Series<TaskData, int>>> listOfAllData = [];
+  
   void data() {
     for (int i = 0; i < 7; i++) {
       listOfAllData.add(mondayData(i));
@@ -89,10 +87,11 @@ class _MyWeekViewState extends State<MyWeekView> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.blue,
       ),
       body: Center(
         child: Container(
+          margin: EdgeInsets.only(top: 50),
           child: Column(
             children: <Widget>[
               Container(
@@ -101,63 +100,94 @@ class _MyWeekViewState extends State<MyWeekView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Container(
+                    GestureDetector(
+                      child: Container(
                       child: Column(
                         children: <Widget>[
                           Text('Monday'),
-                          Container(
+                        Container(
                             height: 80,
                             width: 80,
-                            child: Center(
+                              child: Center(
                               child: DonutPieChart(listOfAllData[0]),
                             ),
                           )
                         ],
                       ),
                     ),
-                    Container(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DayView(listOfAllData[0], 0)),
+                      );
+                    },
+                    ),
+                    GestureDetector(
+                      child: Container(
                       child: Column(
                         children: <Widget>[
                           Text('Tuesday'),
-                          Container(
+                        Container(
                             height: 80,
                             width: 80,
-                            child: Center(
+                              child: Center(
                               child: DonutPieChart(listOfAllData[1]),
-                            )
-                            ,
+                            ),
                           )
                         ],
                       ),
                     ),
-                    Container(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DayView(listOfAllData[1], 1)),
+                      );
+                    },
+                    ),
+                    GestureDetector(
+                      child: Container(
                       child: Column(
                         children: <Widget>[
                           Text('Wednesday'),
-                          Container(
+                        Container(
                             height: 80,
                             width: 80,
-                            child: Center(
+                              child: Center(
                               child: DonutPieChart(listOfAllData[2]),
                             ),
                           )
                         ],
                       ),
                     ),
-                    Container(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DayView(listOfAllData[2], 2)),
+                      );
+                    },
+                    ),
+                    GestureDetector(
+                      child: Container(
                       child: Column(
                         children: <Widget>[
                           Text('Thursday'),
-                          Container(
+                        Container(
                             height: 80,
                             width: 80,
-                            child: Center(
+                              child: Center(
                               child: DonutPieChart(listOfAllData[3]),
                             ),
                           )
                         ],
                       ),
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DayView(listOfAllData[3], 3)),
+                      );
+                    },
+                    )
                   ],
                 ),
               ),
@@ -169,54 +199,72 @@ class _MyWeekViewState extends State<MyWeekView> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Container(
+                    GestureDetector(
+                      child: Container(
                       child: Column(
                         children: <Widget>[
                           Text('Friday'),
-                          Container(
+                        Container(
                             height: 80,
                             width: 80,
-                            child: Center(
+                              child: Center(
                               child: DonutPieChart(listOfAllData[4]),
                             ),
                           )
                         ],
                       ),
                     ),
-                    Container(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DayView(listOfAllData[4], 4)),
+                      );
+                    },
+                    ),
+                    GestureDetector(
+                      child: Container(
                       child: Column(
                         children: <Widget>[
                           Text('Saturday'),
-                          Container(
+                        Container(
                             height: 80,
                             width: 80,
-                            child: Center(
+                              child: Center(
                               child: DonutPieChart(listOfAllData[5]),
-                            )
-                            ,
+                            ),
                           )
                         ],
                       ),
                     ),
-                    Container(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DayView(listOfAllData[5], 5)),
+                      );
+                    },
+                    ),
+                    GestureDetector(
+                      child: Container(
                       child: Column(
                         children: <Widget>[
                           Text('Sunday'),
-                          FlatButton(
-                            child: Container(
+                        Container(
                             height: 80,
                             width: 80,
-                            child: Center(
+                              child: Center(
                               child: DonutPieChart(listOfAllData[6]),
                             ),
-                          ),
-                          onPressed: () {
-                            print("pressed");
-                          },
                           )
                         ],
                       ),
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DayView(listOfAllData[6], 6)),
+                      );
+                    },
+                    )
                   ],
                 ),
               ),
@@ -262,7 +310,7 @@ class DonutPieChart extends StatelessWidget {
         animate: animate,
         // Configure the width of the pie slices to 60px. The remaining space in
         // the chart will be left as a hole in the center.
-        defaultRenderer: new charts.ArcRendererConfig(arcWidth: 100));
+        defaultRenderer: new charts.ArcRendererConfig(arcWidth: 500));
   }
 
   /// Create one series with sample hard coded data.
@@ -293,6 +341,175 @@ class TaskData {
   TaskData(this.name, this.time);
 }
 
+
+class DayView extends StatefulWidget {
+  List<charts.Series<TaskData, int>> listOfTasks;
+  int day;
+  DayView(List<charts.Series<TaskData, int>> list, int day) {
+    this.listOfTasks = list;
+    this.day = day;
+  }
+  @override
+  _DayViewState createState() => _DayViewState(listOfTasks, day);
+}
+
+class _DayViewState extends State<DayView> {
+   List<charts.Series<TaskData, int>> listOfTasks;
+   Map<int, String> days = new Map();
+   int day;
+   
+
+  _DayViewState(List<charts.Series<TaskData, int>> list, int day) {
+    this.listOfTasks = list;
+    this.day = day;
+  }
+  BuildContext theContext;
+  @override
+  Widget build(BuildContext context) {
+    theContext = context;
+    days[0] = 'Monday';
+    days[1] = 'Tuesday';
+    days[2] = 'Wednesday';
+    days[3] = 'Thursday';
+    days[4] = 'Friday';
+    days[5] = 'Saturday';
+    days[6] = 'Sunday';
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(days[day],
+      ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              height: 300,
+              width: 300,
+              child: DonutPieChart(listOfTasks),
+            ),
+            Container(
+              constraints: BoxConstraints.expand(height: 260),
+              child: ListView(
+                  children: makeTaskList(),
+              ),
+            )
+          ],
+        )
+      )
+    );
+  }
+
+  TextStyle labelStyle = new TextStyle(fontFamily: 'Avenir', fontSize: 20, fontWeight: FontWeight.bold);
+
+  List<Widget> makeTaskList() {
+    List<String> taskNames = [];
+    Map<String, int> hoursList = new Map();
+    Map<String, DateTime> timeOfDay = new Map();
+    for (Task task in MyHomePage.theUser.tasks) {
+      for (Occurrence occurs in task.occurrence) {
+        if (occurs.daysPerWeek.contains(day)) {
+          if (!taskNames.contains(task.name)) {
+            taskNames.add(task.name);
+            int time = occurs.time[1].hour - occurs.time[0].hour;
+            hoursList[task.name] = time;
+            timeOfDay[task.name] = occurs.time[0];
+          }
+        }
+      }
+    }
+    List<Widget> rows = [];
+    for (int i = 0; i < taskNames.length; i++) {
+      Container newContainer = new Container(
+        height: 100,
+        width: 300,
+        child: GestureDetector(
+          child: Card(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Text(taskNames[i], style: labelStyle,),
+                  Text(makeTheTimeString(timeOfDay[taskNames[i]], hoursList[taskNames[i]]), style: labelStyle,),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Text("Total Time: ", style: labelStyle,),
+                  Text(hoursList[taskNames[i]].toString() + "hrs", style: labelStyle,),
+                ],
+              )
+            ],
+          ),
+          elevation: 5,
+        ),
+        onTap: () {
+          print("Pressed");
+          _showDialog(taskNames[i], hoursList[taskNames[i]], timeOfDay[taskNames[i]]);
+        },
+        )
+      );
+      rows.add(newContainer);
+    }
+    return rows;
+  }
+
+  void _showDialog(String taskName, int duration, DateTime startTimeOfDay) {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(taskName),
+          content: new Text('Time: ' + makeTheTimeString(startTimeOfDay, duration)),
+          actions: <Widget>[
+            // usually buttons at the bottom of the dialog
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            new FlatButton(
+              child: new Text("Delete"),
+              onPressed: () {
+                deleteATask(taskName);
+                Navigator.of(context).pop();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WeekView()),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void deleteATask(String taskName) {
+    List<Task> taskList = MyHomePage.theUser.tasks;
+    for (Task task in taskList) {
+      if (task.name == taskName) {
+        task.removeOccurrenceByDay(day);
+      }
+    }
+    MyHomePage.theUser.tasks = taskList;
+  }
+
+  String makeTheTimeString(DateTime date, int duration) {
+    if (date.minute > 10) {
+      return date.hour.toString() + ":" + date.minute.toString() + "-" + (date.hour + duration).toString() + ":" + date.minute.toString();
+    } else {
+      return date.hour.toString() + ":0" + date.minute.toString() + "-" + (date.hour + duration).toString() + ":0" + date.minute.toString();
+    }
+  }
+}
 
 
 
