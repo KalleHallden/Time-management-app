@@ -30,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     TextEditingController taskNameController = new TextEditingController();
-
+    String texts = "";
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -44,9 +44,12 @@ class _MyHomePageState extends State<MyHomePage> {
               TextField(
                 controller: taskNameController,
                 onChanged: (text) {
-                  taskNameController.text = text;
+                  texts = text;
                 },
-                textAlign: TextAlign.center,
+                onEditingComplete: () {
+                  taskNameController.text = texts;
+                },
+                //textAlign: TextAlign.center,
               ),
               FlatButton(
                 color: Colors.blue,
@@ -336,6 +339,7 @@ class _SecondRouteState extends State<SecondRoute> {
     times.add(timeStart);
     times.add(timeEnd);
     MyHomePage.theUser.createTask(this.taskName, this.days, times, this.repeats);
+    Navigator.of(context).pop();
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => WeekView()),

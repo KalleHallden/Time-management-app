@@ -39,11 +39,19 @@ class _MyWeekViewState extends State<MyWeekView> {
     
     for (int i = 0; i < 7; i++) {
       List<TaskData> listOfDayTasks = [];
+      Map<String, int> listTasks = new Map();
+      Map<String, int> listEndTimes = new Map();
+      List<int> startTimes = [];
+      List<int> endTimes = [];
       for (Task task in myUser.tasks) {
         for (Occurrence occurs in task.occurrence) {
           if (occurs.daysPerWeek.contains(i)) {
             int time = occurs.time[1].hour - occurs.time[0].hour;
-            listOfDayTasks.add(new TaskData('task.name', time));
+            //listOfDayTasks.add(new TaskData(task.name, time));
+            listTasks[task.name] = occurs.time[0].hour;
+            listEndTimes[task.name] = occurs.time[1].hour;
+            startTimes.add(occurs.time[0].hour);
+            endTimes.add(occurs.time[1].hour);
           }
         }
       }
@@ -51,10 +59,56 @@ class _MyWeekViewState extends State<MyWeekView> {
       for (TaskData data in listOfDayTasks) {
         count += data.time;
       }
-      int freeTime = 24 - count;
-      listOfDayTasks.add(new TaskData('Free', freeTime));
+      int counter = 0;
+      int start = 0;
+      int end = 0;
+      String name = "";
+
+      for (int i = 0; i < 24; i++) {
+        
+        if (startTimes.contains(i)) {
+
+          for (Task task in myUser.tasks) {
+            for (Occurrence occurs in task.occurrence) {
+              if (occurs.time[0].hour == i) {
+                name = task.name;
+              }
+            }
+          }
+          if (i != end) {
+            if (end < i) {
+              listOfDayTasks.add(new TaskData('free time', i-end));
+            }
+          }
+          end = listEndTimes[name];
+          start = i;
+          listOfDayTasks.add(new TaskData(name, end-start));
+        }
+        if (i == 23) {
+          if (i != end) {
+            listOfDayTasks.add(new TaskData('free time', i-end));
+          }
+        }
+      }
+      // List<TaskData> orderedDayTasks = [];
+      // for (int i = 0; i < 24; i++) {
+
+      // }
       listOfAllDays.add(listOfDayTasks);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
     setState() {
       build(context);
     }
@@ -262,7 +316,13 @@ class _MyWeekViewState extends State<MyWeekView> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => DayView(listOfAllData[6], 6)),
-                      );
+                      ).then((value) {
+                        setState(() {
+                         createAllTaskData();
+                         build(context);
+                         print("HELLO" + value);                
+                      });
+                      });
                     },
                     )
                   ],
@@ -275,12 +335,16 @@ class _MyWeekViewState extends State<MyWeekView> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "Hellooo",
         child: Icon(Icons.add),
         onPressed: () {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MyApp()),
             );
+              setState() {
+                build(context);
+              }
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -363,6 +427,12 @@ class _DayViewState extends State<DayView> {
     this.listOfTasks = list;
     this.day = day;
   }
+
+   setIt() {
+    setState() {
+      build(context);
+    }
+  }
   BuildContext theContext;
   @override
   Widget build(BuildContext context) {
@@ -422,9 +492,11 @@ class _DayViewState extends State<DayView> {
     List<Widget> rows = [];
     for (int i = 0; i < taskNames.length; i++) {
       Container newContainer = new Container(
+        
         height: 100,
         width: 300,
         child: GestureDetector(
+          
           child: Card(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -470,21 +542,20 @@ class _DayViewState extends State<DayView> {
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
             new FlatButton(
+
               child: new Text("Close"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             new FlatButton(
+              key: new Key('one'),
               child: new Text("Delete"),
               onPressed: () {
                 deleteATask(taskName);
                 Navigator.of(context).pop();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => WeekView()),
-                );
-              },
+                Navigator.of(theContext).pop();
+              }
             ),
           ],
         );
